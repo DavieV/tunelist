@@ -1,0 +1,142 @@
+body{
+    background-color: #ddd;
+}
+
+/* Hide the youtube player */
+iframe {
+    display: none;
+}
+
+/* ---------- Table ---------- */
+.header-fixed {
+    width: 100% 
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.header-fixed > tbody {
+    overflow-y: auto;
+}
+
+/* Width for each column is 100 / # of columns */
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    width: 33.33333333%;
+    float: left;
+}
+
+@media (min-height: 300px) {
+    .header-fixed > tbody {
+        height: 200px;
+    }
+}
+
+@media (min-height: 600px) {
+    .header-fixed > tbody {
+        height: 450px;
+    }
+}
+
+@media (min-height: 900px) {
+    .header-fixed > tbody {
+        height: 750px;
+    }
+}
+
+.playlist-table {
+    position: fixed;
+    top: 51px;          /* space for upper navbar */
+    bottom: 0;
+    left: 0;
+    display: block;
+}
+
+.song-table tr:hover {
+    cursor: pointer;
+}
+
+/* Change color of 'odd' numbered columns in song table */
+.table-striped > tbody > tr:nth-of-type(odd) {
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 51px;      /* leave space for upper navbar */
+        bottom: 51px;   /* leave space for bottom bar */
+        right: 0;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #ccc;
+        border-left: 1px solid #bbb;
+    }
+}
+
+#sidebar-img {
+    height: 120px;
+    width: 160px;
+    border: 1px solid #bbb;
+}
+
+#img-link {
+    width: 160px;
+    height: 120px;
+}
+
+#controls {
+    padding-top: 20px;
+}
+
+.input-group {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+.volume-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* ---------- Bottom Bar ---------- */
+.song-info {
+    color: #e9e9e9;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.slider-container {
+    display: inline;
+}
+
+.currently-playing {
+    display: inline;
+    padding-left: 50px;
+}
+
+#player-slider {
+    display: inline-block;
+    width: 50%;
+}

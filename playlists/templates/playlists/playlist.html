@@ -1,0 +1,114 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ playlist.name }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'playlists/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'playlists/css/jquery-ui.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'playlists/css/playlist.css' %}"/>
+</head>
+
+<body>
+
+    {% include "playlists/header.html" %}
+
+    <!-- The player should replace this div tag -->
+    <div id="player"></div>
+
+    <div class="container-fluid">
+        <!-- Body content -->
+        <div class="playlist-table">
+
+            <!-- Songs Table -->
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ playlist.name }}
+                <table class="table table-striped header-fixed">
+                    <thead>
+                    <tr>
+                        <th>Song</th>
+                        <th>Artist</th>
+                        <th>Published</th>
+                    </tr>
+                    </thead>
+                    <tbody id="song-table">
+                    {% for song in playlist.song_set.all %}
+                    <tr>
+                        <td>{{ song.name }}</td>
+                        <td>{{ song.artist }}</td>
+                        <td>{{ song.pub_date }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Sidebar content -->
+        <div class="sidebar">
+
+            <div class="row">
+                <a id="img-link" href="" target="_blank"><img id="sidebar-img" src="" class="center-block"></a>
+            </div>
+
+            <!-- Playlist Controls -->
+            <div class="text-center" id="controls">
+                <button class="btn btn-default" id="prev" aria-label="Left">
+                    <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-default" id="play-pause" aria-label="Center-Left">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-default" id="next" aria-label="Right">
+                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
+                </button>
+            </div>
+
+            <div class="volume-container">
+                <div id="volume-slider"></div>
+            </div>
+
+            {% if form %}
+            <!-- Add song form -->
+            <div class="center-block">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        {{ form.song_url }}
+                    </div>
+                    <div class="input-group">
+                        {{ form.name }}
+                    </div>
+                    <div class="input-group">
+                        {{ form.artist }}
+                    </div>
+                    <button class="btn btn-primary center-block" type="submit">Add Song</button>
+                </form>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    {% include 'playlists/footer.html' %}
+
+    <!-- Bootstrap javascript -->
+    <script type="text/javascript" src="{% static 'playlists/js/jquery-1.11.3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'playlists/js/jquery-ui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'playlists/js/bootstrap.min.js' %}"></script>
+
+    <!-- Playlist Javascript -->
+    <script>
+        var video_ids = [];
+        {% for song in playlist.song_set.all %}
+            video_ids.push("{{ song.song_id }}")
+        {% endfor %}
+    </script>
+
+    <script type="text/javascript" src="{% static 'playlists/js/playlist.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ username }}'s profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'playlists/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'playlists/css/main.css' %}"/>
+</head>
+
+<body>
+
+    {% include "playlists/header.html" %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{{ username }}</h1>
+        </div>
+    </div>
+
+    {% if form %}
+        <div class="container">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    {% endif %}
+
+    <div class="container">
+    {% if playlists %}
+        <ul>
+            {% for playlist in playlists %}
+            <li>
+                <a href="{% url 'playlist' username playlist.playlist_id %}">{{playlist.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>This user does not have any playlists</p>
+    {% endif %}
+    </div>
+</body>
+
+</html>
