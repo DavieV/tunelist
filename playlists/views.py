@@ -1,7 +1,7 @@
 import datetime
 
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_list_or_404, get_object_or_404, render
+from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User

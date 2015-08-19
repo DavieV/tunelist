@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import include, url
 
 from . import views
 
@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^login/$', views.login_view, name='login_view'),
     url(r'^signup/$', views.signup_view, name='signup_view'),
     url(r'^logout/$', views.logout_view, name='logout_view'),
+    url(r'^search/', include('haystack.urls')),
     url(r'^(?P<username>[0-9a-zA-Z_-]+)/$', views.profile, name='profile'),
     url(
         r'^(?P<username>[0-9a-zA-Z_-]+)/(?P<playlist_id>[0-9]+)/$',

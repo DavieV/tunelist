@@ -1,0 +1,2 @@
+{{ object.username }}
+{{ object.date_joined }}
