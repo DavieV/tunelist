@@ -5,3 +5,5 @@ If you're anything like me, and find yourself spending a lot of time on youtube 
 
 # Contributing
 This is only an initial prototype, and I am definitely still a Django noobie. If you having any suggestions on any features you would like to see added, or if you think you can help me to organize the project in a more sensible way, then feel free to contribute! I'll certainly appreciate it, and the app will improve as well!
+
+Testing
