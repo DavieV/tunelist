@@ -67,13 +67,12 @@ def playlist(request, username, playlist_id):
 
                 # Verify that the song_id is unique to this playlist
                 for s in playlist.song_set.all():
-                    if s.song_id == song_id:
+                    if s.song_url.split('=')[1] == song_id:
                         return HttpResponse("This song is already in the playlist")
 
                 song = Song.objects.create(
                     playlist = playlist,
                     song_url = song_url,
-                    song_id = song_id,
                     name = request.POST['name'],
                     artist = request.POST['artist'],
                     pub_date = timezone.now()
@@ -112,7 +111,7 @@ def song_delete(request, username, playlist_id, song_id):
         return HttpResponseRedirect('/playlists/')
 
     playlist = get_object_or_404(Playlist, author=user, pk=playlist_id)
-    song = get_object_or_404(Song, song_id=song_id, playlist=playlist)
+    song = get_object_or_404(Song, pk=song_id, playlist=playlist)
     song.delete()
 
     # Decrement the num_songs field
