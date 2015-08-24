@@ -6,10 +6,13 @@ class PlaylistForm(forms.Form):
 
 class SongForm(forms.Form):
     song_url = forms.CharField(
-        max_length=200, 
-        widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'URL'})
+        max_length=200,
+        widget=forms.TextInput(attrs = {
+            'class'      : 'form-control song-url',
+            'placeholder': 'URL',
+        })
     )
-    
+
     name = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Name'})
@@ -28,7 +31,7 @@ class RegistrationForm(forms.Form):
         widget=forms.PasswordInput
     )
     password2 = forms.CharField(
-        label="Confirm Password", 
+        label="Confirm Password",
         widget=forms.PasswordInput
     )
 

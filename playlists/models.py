@@ -21,7 +21,6 @@ class Playlist(models.Model):
     author = models.ForeignKey(User)
     name = models.CharField(max_length=100)
     pub_date = models.DateTimeField("date published")
-    playlist_id = models.PositiveIntegerField()
     num_songs = models.PositiveIntegerField(default=0)
     num_likes = models.PositiveIntegerField(default=0)
 
@@ -31,7 +30,6 @@ class Playlist(models.Model):
 class Song(models.Model):
     playlist = models.ForeignKey(Playlist)
     song_url = models.CharField(max_length=200)
-    song_id = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     artist = models.CharField(max_length=100)
     pub_date = models.DateTimeField("date published")

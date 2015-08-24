@@ -12,7 +12,7 @@ urlpatterns = [
     url(
         r'^(?P<username>[0-9a-zA-Z_-]+)/(?P<playlist_id>[0-9]+)/$',
         views.playlist,
-        name='playlist'    
+        name='playlist'
     ),
     url(
         r'^(?P<username>[0-9a-zA-Z_-]+)/(?P<playlist_id>[0-9]+)/delete/$',
