@@ -11,7 +11,10 @@ from django.dispatch import receiver
 # TODO: add e-mail verification flag to this model
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
-    num_playlists = models.PositiveIntegerField(default=0)
+
+    @property
+    def num_playlists(self):
+        return self.user.playlist_set.all().count()
 
     def __str__(self):
         return self.user.get_username()
@@ -21,8 +24,10 @@ class Playlist(models.Model):
     author = models.ForeignKey(User)
     name = models.CharField(max_length=100)
     pub_date = models.DateTimeField("date published", default=timezone.now)
-    num_songs = models.PositiveIntegerField(default=0)
     num_likes = models.PositiveIntegerField(default=0)
+
+    def count(self):
+        return self.song_set.all().count()
 
     def __str__(self):
         return self.name

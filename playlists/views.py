@@ -29,9 +29,6 @@ def profile(request, username):
         if request.method == 'POST':
             form = PlaylistForm(request.POST)
             if form.is_valid():
-                user.profile.num_playlists += 1
-                user.profile.save()
-
                 playlist = Playlist.objects.create(
                     author = user,
                     name = request.POST['name'],
@@ -73,7 +70,6 @@ def playlist(request, username, playlist_id):
                     name = request.POST['name'],
                     artist = request.POST['artist'],
                 )
-                playlist.num_songs += 1
                 playlist.save()
                 return HttpResponseRedirect('') # reload this page
             return HttpResponse("invalid form info")
@@ -94,7 +90,6 @@ def playlist_delete(request, username, playlist_id):
 
     playlist = get_object_or_404(Playlist, author=user, pk=playlist_id)
     playlist.delete()
-    user.profile.num_playlists -= 1
     user.profile.save()
     return HttpResponse("Playist deleted.")
 
@@ -106,13 +101,9 @@ def song_delete(request, username, playlist_id, song_id):
     if request.user != user:
         return HttpResponseRedirect('/playlists/')
 
-    playlist = get_object_or_404(Playlist, author=user, pk=playlist_id)
     song = get_object_or_404(Song, pk=song_id, playlist=playlist)
     song.delete()
 
-    # Decrement the num_songs field
-    playlist.num_songs -= 1
-    playlist.save()
     return HttpResponse("Song removed.")
 
 def signup_view(request):
