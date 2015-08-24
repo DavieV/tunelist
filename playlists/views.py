@@ -35,9 +35,6 @@ def profile(request, username):
                 playlist = Playlist.objects.create(
                     author = user,
                     name = request.POST['name'],
-                    pub_date = timezone.now(),
-                    num_songs = 0,
-                    num_likes = 0
                 )
                 return HttpResponseRedirect('') # reload the page
             return HttpResponse("invalid form info")
@@ -75,7 +72,6 @@ def playlist(request, username, playlist_id):
                     song_url = song_url,
                     name = request.POST['name'],
                     artist = request.POST['artist'],
-                    pub_date = timezone.now()
                 )
                 playlist.num_songs += 1
                 playlist.save()

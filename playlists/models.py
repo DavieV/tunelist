@@ -20,7 +20,7 @@ class UserProfile(models.Model):
 class Playlist(models.Model):
     author = models.ForeignKey(User)
     name = models.CharField(max_length=100)
-    pub_date = models.DateTimeField("date published")
+    pub_date = models.DateTimeField("date published", default=timezone.now)
     num_songs = models.PositiveIntegerField(default=0)
     num_likes = models.PositiveIntegerField(default=0)
 
@@ -32,7 +32,7 @@ class Song(models.Model):
     song_url = models.CharField(max_length=200)
     name = models.CharField(max_length=100)
     artist = models.CharField(max_length=100)
-    pub_date = models.DateTimeField("date published")
+    pub_date = models.DateTimeField("date published", default=timezone.now)
 
     def __str__(self):
         return self.name
