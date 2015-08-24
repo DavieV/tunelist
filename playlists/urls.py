@@ -8,20 +8,20 @@ urlpatterns = [
     url(r'^signup/$', views.signup_view, name='signup_view'),
     url(r'^logout/$', views.logout_view, name='logout_view'),
     url(r'^search/', include('haystack.urls')),
-    url(r'^(?P<username>[0-9a-zA-Z_-]+)/$', views.profile, name='profile'),
     url(
-        r'^(?P<username>[0-9a-zA-Z_-]+)/(?P<playlist_id>[0-9]+)/$',
-        views.playlist,
-        name='playlist'
-    ),
-    url(
-        r'^(?P<username>[0-9a-zA-Z_-]+)/(?P<playlist_id>[0-9]+)/delete/$',
+        r'^(?P<username>.*)/(?P<playlist_id>.*)/delete/$',
         views.playlist_delete,
         name='playlist_delete'
     ),
     url(
-        r'^(?P<username>[0-9a-zA-Z_-]+)/(?P<playlist_id>[0-9]+)/(?P<song_id>[0-9a-zA-Z_-]+)/$',
+        r'^(?P<username>.*)/(?P<playlist_id>.*)/(?P<song_id>.*)/$',
         views.song_delete,
         name='song_delete'
     ),
+    url(
+        r'^(?P<username>.*)/(?P<playlist_id>.*)/$',
+        views.playlist,
+        name='playlist'
+    ),
+    url(r'^(?P<username>.*)/$', views.profile, name='profile'),
 ]
