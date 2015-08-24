@@ -33,10 +33,9 @@ def profile(request, username):
                     author = user,
                     name = request.POST['name'],
                 )
-                return HttpResponseRedirect('') # reload the page
-            return HttpResponse("invalid form info")
-        form = PlaylistForm()
-        context['form'] = form
+            else:
+                return HttpResponse("invalid form info")
+        context['form'] = PlaylistForm()
     return render(request, 'playlists/profile.html', context)
 
 def playlist(request, username, playlist_id):
@@ -70,11 +69,9 @@ def playlist(request, username, playlist_id):
                     name = request.POST['name'],
                     artist = request.POST['artist'],
                 )
-                playlist.save()
-                return HttpResponseRedirect('') # reload this page
-            return HttpResponse("invalid form info")
-        form = SongForm()
-        context['form'] = form
+            else:
+                return HttpResponse("invalid form info")
+        context['form'] = SongForm()
     return render(request, 'playlists/playlist.html', context)
 
 @login_required
