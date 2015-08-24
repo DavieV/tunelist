@@ -39,6 +39,10 @@ class Song(models.Model):
     artist = models.CharField(max_length=100)
     pub_date = models.DateTimeField("date published", default=timezone.now)
 
+    @property
+    def yt_id(self):
+        return self.song_url.split("=")[-1]
+
     def __str__(self):
         return self.name
 

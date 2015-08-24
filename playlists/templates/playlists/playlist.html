@@ -35,7 +35,11 @@
                     <tbody id="song-table">
                     {% for song in playlist.song_set.all %}
                     <tr>
-                        <td>{{ song.name }}</td>
+                        <td>
+                            <a href="#">
+                                {{ song.name }}
+                            </a>
+                        </td>
                         <td>{{ song.artist }}</td>
                         <td>{{ song.pub_date }}</td>
                     </tr>
@@ -98,12 +102,13 @@
     <script type="text/javascript" src="{% static 'playlists/js/jquery-1.11.3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'playlists/js/jquery-ui.js' %}"></script>
     <script type="text/javascript" src="{% static 'playlists/js/bootstrap.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
 
     <!-- Playlist Javascript -->
     <script>
         var video_ids = [];
         {% for song in playlist.song_set.all %}
-            video_ids.push("{{ song.song_id }}")
+            video_ids.push("{{ song.yt_id }}")
         {% endfor %}
     </script>
 
