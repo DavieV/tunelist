@@ -18,17 +18,13 @@ var vol_slider = $("#volume-slider");   // slider for volume control
 
 var song_name_artist = $("#song-name-artist");
 
-// set the sizes for the table and sidebar
-$('.header-fixed > tbody').css('height', ($(window).height() - 200) + 'px');
-$('.playlist-table').css('width', (0.8 * $(window).width()) + 'px');
-$('.sidebar').css('width', (0.2 * $(window).width()) + 'px');
-
 // Resize the table whenever the window is resized
 $(window).resize(function() {
     $('.header-fixed > tbody').css('height', ($(window).height() - 200) + 'px');
     $('.playlist-table').css('width', (0.8 * $(window).width()) + 'px');
     $('.sidebar').css('width', (0.2 * $(window).width()) + 'px');
 });
+$(window).resize();
 
 // This function creates an <iframe> (and YouTube player)
 // after the API code downloads.
@@ -109,7 +105,8 @@ function onPlayerReady(event) {
 
     if (rows != null) {
         rows.each(function(index, row) {
-            $(row).dblclick(function() {
+            $(row).dblclick(function(event) {
+                console.log(event);
                 button_icon.attr('class', 'glyphicon glyphicon-pause');
                 loadImage(index);
                 songID(index);

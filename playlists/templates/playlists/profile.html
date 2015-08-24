@@ -34,7 +34,7 @@
         <ul>
             {% for playlist in playlists %}
             <li>
-                <a href="{% url 'playlist' username playlist.playlist_id %}">{{playlist.name}}</a>
+                <a href="{% url 'playlist' username playlist.pk %}">{{playlist.name}}</a>
             </li>
             {% endfor %}
         </ul>

@@ -22,34 +22,20 @@ def profile(request, username):
     displayed.
     '''
     user = get_object_or_404(User, username=username)
-    playlists = Playlist.objects.filter(author=user).order_by('playlist_id')
+    playlists = Playlist.objects.filter(author=user).order_by('pk')
     context = {'playlists' : playlists, 'username' : username}
 
     if request.user == user:
         if request.method == 'POST':
             form = PlaylistForm(request.POST)
             if form.is_valid():
-                user.profile.num_playlists += 1
-                user.profile.save()
-                playlist_id = user.profile.num_playlists
-
-                # Look for any unused ids with a value less than num_playlists
-                for i in range(len(playlists)):
-                    if playlists[i].playlist_id != (i + 1):
-                        playlist_id = (i + 1)
-
                 playlist = Playlist.objects.create(
                     author = user,
                     name = request.POST['name'],
-                    pub_date = timezone.now(),
-                    playlist_id = playlist_id,
-                    num_songs = 0,
-                    num_likes = 0
                 )
-                return HttpResponseRedirect('') # reload the page
-            return HttpResponse("invalid form info")
-        form = PlaylistForm()
-        context['form'] = form
+            else:
+                return HttpResponse("invalid form info")
+        context['form'] = PlaylistForm()
     return render(request, 'playlists/profile.html', context)
 
 def playlist(request, username, playlist_id):
@@ -62,7 +48,7 @@ def playlist(request, username, playlist_id):
     a new song is added to the playlist
     '''
     user = get_object_or_404(User, username=username)
-    playlist = get_object_or_404(Playlist, author=user, playlist_id=playlist_id)
+    playlist = get_object_or_404(Playlist, author=user, pk=playlist_id)
     context = {'username' : username, 'playlist' : playlist}
 
     if request.user == user:
@@ -74,23 +60,18 @@ def playlist(request, username, playlist_id):
 
                 # Verify that the song_id is unique to this playlist
                 for s in playlist.song_set.all():
-                    if s.song_id == song_id:
+                    if s.song_url.split('=')[1] == song_id:
                         return HttpResponse("This song is already in the playlist")
 
                 song = Song.objects.create(
                     playlist = playlist,
                     song_url = song_url,
-                    song_id = song_id,
                     name = request.POST['name'],
                     artist = request.POST['artist'],
-                    pub_date = timezone.now()
                 )
-                playlist.num_songs += 1
-                playlist.save()
-                return HttpResponseRedirect('') # reload this page
-            return HttpResponse("invalid form info")
-        form = SongForm()
-        context['form'] = form
+            else:
+                return HttpResponse("invalid form info")
+        context['form'] = SongForm()
     return render(request, 'playlists/playlist.html', context)
 
 @login_required
@@ -104,9 +85,8 @@ def playlist_delete(request, username, playlist_id):
     if request.user != user:
         return HttpResponseRedirect('/')  # send the user back to the homepage
 
-    playlist = get_object_or_404(Playlist, author=user, playlist_id=playlist_id)
+    playlist = get_object_or_404(Playlist, author=user, pk=playlist_id)
     playlist.delete()
-    user.profile.num_playlists -= 1
     user.profile.save()
     return HttpResponse("Playist deleted.")
 
@@ -118,13 +98,9 @@ def song_delete(request, username, playlist_id, song_id):
     if request.user != user:
         return HttpResponseRedirect('/playlists/')
 
-    playlist = get_object_or_404(Playlist, author=user, playlist_id=playlist_id)
-    song = get_object_or_404(Song, song_id=song_id, playlist=playlist)
+    song = get_object_or_404(Song, pk=song_id, playlist=playlist)
     song.delete()
 
-    # Decrement the num_songs field
-    playlist.num_songs -= 1
-    playlist.save()
     return HttpResponse("Song removed.")
 
 def signup_view(request):
