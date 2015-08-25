@@ -44,7 +44,7 @@ class RegistrationForm(forms.Form):
         if password1 != password2:
             raise forms.ValidationError("Passwords do not match each other")
 
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(username__iexact=username).exists():
             raise forms.ValidationError("Username is already in use")
 
 class LoginForm(forms.Form):

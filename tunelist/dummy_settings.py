@@ -113,3 +113,7 @@ HAYSTACK_CONNECTIONS = {
         'URL': 'http://127.0.0.1:8983/solr'
     },
 }
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: "/%s/" % u.username,
+}

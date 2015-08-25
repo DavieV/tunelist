@@ -14,7 +14,7 @@ class PlaylistAdmin(admin.ModelAdmin):
     inlines = [SongInline]
 
 class UserProfileAdmin(admin.ModelAdmin):
-    fieldsets = [(None, {'fields' : ['user', 'num_playlists']})]
+    fieldsets = [(None, {'fields' : ['user']})]
 
 admin.site.register(Playlist, PlaylistAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)

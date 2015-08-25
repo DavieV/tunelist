@@ -21,9 +21,9 @@ def profile(request, username):
     If the user is logged in, then a form to add new playlists is also
     displayed.
     '''
-    user = get_object_or_404(User, username=username)
+    user = get_object_or_404(User, username__iexact=username)
     playlists = Playlist.objects.filter(author=user).order_by('pk')
-    context = {'playlists' : playlists, 'username' : username}
+    context = {'playlists' : playlists, 'username' : user.username}
 
     if request.user == user:
         if request.method == 'POST':
@@ -47,9 +47,9 @@ def playlist(request, username, playlist_id):
     If the view is called via a POST request then the form is processed and
     a new song is added to the playlist
     '''
-    user = get_object_or_404(User, username=username)
+    user = get_object_or_404(User, username__iexact=username)
     playlist = get_object_or_404(Playlist, author=user, pk=playlist_id)
-    context = {'username' : username, 'playlist' : playlist}
+    context = {'username' : user.username, 'playlist' : playlist}
 
     if request.user == user:
         if request.method == 'POST':
@@ -79,7 +79,7 @@ def playlist_delete(request, username, playlist_id):
     '''
     View to to delete a user's specified playlist
     '''
-    user = get_object_or_404(User, username=username)
+    user = get_object_or_404(User, username__iexact=username)
 
     # Check if currently signed in user is viewing their own profile
     if request.user != user:
@@ -92,7 +92,7 @@ def playlist_delete(request, username, playlist_id):
 
 @login_required
 def song_delete(request, username, playlist_id, song_id):
-    user = get_object_or_404(User, username=username)
+    user = get_object_or_404(User, username__iexact=username)
 
     # Check if the logged in user is viewing their own profile
     if request.user != user:
@@ -114,7 +114,7 @@ def signup_view(request):
         if form.is_valid():
             # creates a new user and stores it in the database
             user = User.objects.create_user(
-                request.POST['username'],
+                request.POST['username'].lower(),
                 request.POST['email'],
                 request.POST['password1']
             )
@@ -134,7 +134,7 @@ def login_view(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             user = authenticate(
-                username=request.POST['username'],
+                username=request.POST['username'].lower(),
                 password=request.POST['password']
             )
             if user is not None:
