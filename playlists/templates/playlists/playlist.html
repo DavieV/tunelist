@@ -41,7 +41,10 @@
                             </a>
                         </td>
                         <td>{{ song.artist }}</td>
-                        <td>{{ song.pub_date }}</td>
+                        <td>
+                            {{ song.pub_date }}
+                            <a class="delete-link" href="{% url 'song_delete' username playlist.pk song.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                        </td>
                     </tr>
                     {% endfor %}
                     </tbody>

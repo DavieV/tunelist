@@ -8,6 +8,10 @@ iframe {
 }
 
 /* ---------- Table ---------- */
+.delete-link {
+    float: right;
+}
+
 .header-fixed {
     width: 100% 
 }

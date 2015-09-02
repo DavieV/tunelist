@@ -31,13 +31,19 @@
 
     <div class="container">
     {% if playlists %}
-        <ul>
-            {% for playlist in playlists %}
-            <li>
-                <a href="{% url 'playlist' username playlist.pk %}">{{playlist.name}}</a>
-            </li>
-            {% endfor %}
-        </ul>
+        {% for playlist in playlists %}
+        <div class="col-md-6">
+            <div class="playlist-info">
+                <img src="https://i3.ytimg.com/vi/{{ playlist.song_set.first.yt_id }}/default.jpg">
+                <h3><a href="{% url 'playlist' username playlist.pk %}">{{playlist.name}}</a></h3>
+                &nbsp;
+                {{ playlist.genre }}
+                {% if form %}
+                    <a class="right" href="{% url 'playlist_delete' username playlist.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
     {% else %}
         <p>This user does not have any playlists</p>
     {% endif %}

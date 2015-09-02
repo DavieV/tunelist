@@ -25,6 +25,7 @@ class Playlist(models.Model):
     name = models.CharField(max_length=100)
     pub_date = models.DateTimeField("date published", default=timezone.now)
     num_likes = models.PositiveIntegerField(default=0)
+    genre = models.CharField(max_length=30)
 
     def count(self):
         return self.song_set.all().count()

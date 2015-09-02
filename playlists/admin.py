@@ -8,7 +8,7 @@ class SongInline(admin.TabularInline):
 
 class PlaylistAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields' : ['name', 'author', 'num_likes']}),
+        (None, {'fields' : ['name', 'author', 'genre', 'num_likes']}),
         ('Date Information', {'fields' : ['pub_date'], 'classes' : ['collapse']}),
     ]
     inlines = [SongInline]

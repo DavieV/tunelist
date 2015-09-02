@@ -20,6 +20,9 @@ def profile(request, username):
     The profile page that displays the playlists of a given user.
     If the user is logged in, then a form to add new playlists is also
     displayed.
+
+    If the view is called via a POST request then the form is processed and
+    a new playlist is created
     '''
     user = get_object_or_404(User, username__iexact=username)
     playlists = Playlist.objects.filter(author=user).order_by('pk')
@@ -32,7 +35,9 @@ def profile(request, username):
                 playlist = Playlist.objects.create(
                     author = user,
                     name = request.POST['name'],
+                    genre = request.POST['genre'],
                 )
+                return HttpResponseRedirect('');
             else:
                 return HttpResponse("invalid form info")
         context['form'] = PlaylistForm()
@@ -98,6 +103,7 @@ def song_delete(request, username, playlist_id, song_id):
     if request.user != user:
         return HttpResponseRedirect('/playlists/')
 
+    playlist = get_object_or_404(Playlist, author=user, pk=playlist_id)
     song = get_object_or_404(Song, pk=song_id, playlist=playlist)
     song.delete()
 

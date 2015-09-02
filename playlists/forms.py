@@ -4,6 +4,20 @@ from django.contrib.auth.models import User
 class PlaylistForm(forms.Form):
     name = forms.CharField(label="Name", max_length=100)
 
+    choices = (
+        ('pop', 'Pop'),
+        ('rock', 'Rock'),
+        ('hiphop', 'Hip Hop'),
+        ('edm', 'EDM/Dance'),
+        ('focus', 'Focus'),
+        ('chill', 'Chill'),
+        ('party', 'Party'),
+        ('workout', 'Workout'),
+        ('classical', 'Classical')
+    )
+
+    genre = forms.ChoiceField(choices=choices, label='Genre')
+
 class SongForm(forms.Form):
     song_url = forms.CharField(
         max_length=200,
