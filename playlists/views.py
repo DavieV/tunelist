@@ -101,7 +101,7 @@ def song_delete(request, username, playlist_id, song_id):
 
     # Check if the logged in user is viewing their own profile
     if request.user != user:
-        return HttpResponseRedirect('/playlists/')
+        return HttpResponseRedirect('/') # send the user back to the homepage
 
     pl_list = get_object_or_404(Playlist, author=user, pk=playlist_id)
     song = get_object_or_404(Song, pk=song_id, playlist=pl_list)

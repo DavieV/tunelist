@@ -43,7 +43,9 @@
                         <td>{{ song.artist }}</td>
                         <td>
                             {{ song.pub_date }}
+                            {% if form %}
                             <a class="delete-link" href="{% url 'song_delete' username playlist.pk song.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
