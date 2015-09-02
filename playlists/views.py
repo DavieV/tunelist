@@ -93,7 +93,7 @@ def playlist_delete(request, username, playlist_id):
     playlist = get_object_or_404(Playlist, author=user, pk=playlist_id)
     playlist.delete()
     user.profile.save()
-    return HttpResponse("Playist deleted.")
+    return redirect(profile, username=username)
 
 @login_required
 def song_delete(request, username, playlist_id, song_id):
@@ -103,11 +103,10 @@ def song_delete(request, username, playlist_id, song_id):
     if request.user != user:
         return HttpResponseRedirect('/playlists/')
 
-    playlist = get_object_or_404(Playlist, author=user, pk=playlist_id)
-    song = get_object_or_404(Song, pk=song_id, playlist=playlist)
+    pl_list = get_object_or_404(Playlist, author=user, pk=playlist_id)
+    song = get_object_or_404(Song, pk=song_id, playlist=pl_list)
     song.delete()
-
-    return HttpResponse("Song removed.")
+    return redirect(playlist, username=username, playlist_id=playlist_id)
 
 def signup_view(request):
     '''
