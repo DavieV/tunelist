@@ -106,7 +106,6 @@ function onPlayerReady(event) {
     if (rows != null) {
         rows.each(function(index, row) {
             $(row).dblclick(function(event) {
-                console.log(event);
                 button_icon.attr('class', 'glyphicon glyphicon-pause');
                 loadImage(index);
                 songID(index);
