@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'playlists/css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'playlists/css/jquery-ui.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'playlists/css/playlist.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'playlists/css/icons.css' %}"/>
 </head>
 
 <body>
@@ -77,6 +78,15 @@
 
             <div class="volume-container">
                 <div id="volume-slider"></div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-default" id="shuffle" aria-label="Loop">
+                    <span class="icon icon-shuffle"></span>
+                </button>
+                <button class="btn btn-default" id="loop" aria-label="Shuffle">
+                    <span class="icon icon-loop2"></span>
+                </button>
             </div>
 
             {% if form %}

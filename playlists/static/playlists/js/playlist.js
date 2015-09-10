@@ -5,6 +5,8 @@ var firstScriptTag = $('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 var player;                             // iframe player object
+
+// Interactive page content
 var playpauseButton = $("#play-pause"); // play/pause button
 var button_icon = playpauseButton.find('span');
 var prevButton = $("#prev");            // previous video button
@@ -16,7 +18,17 @@ var dur_display = $("#duration");       // text display of song duration
 var play_slider = $("#player-slider");  // slider for player scrubbing
 var vol_slider = $("#volume-slider");   // slider for volume control
 
+var shuffle_button = $("#shuffle");     // button for shuffling playlist order
+var shuffle_icon = shuffle_button.find('span');
+
+var loop_button = $("#loop");           // button for loop on playlist and song
+var loop_icon = loop_button.find('span');
+
 var song_name_artist = $("#song-name-artist");
+
+// Player flags
+var loop = 0
+var shuffle = false;
 
 // Resize the table whenever the window is resized
 $(window).resize(function() {
@@ -58,10 +70,9 @@ function onPlayerReady(event) {
         player.nextVideo();
     });
 
-    /*
-    If the current time is below three seconds, move to the previous video
-    otherwise, play the current video from the beginning
-    */
+    
+    // If the current time is below three seconds, move to the previous video
+    // otherwise, play the current video from the beginning
     prevButton.click(function() {
         if (player.getCurrentTime() <= 3) {
             player.previousVideo();
@@ -71,6 +82,33 @@ function onPlayerReady(event) {
         }
     });
 
+    // var shuffle = false;
+    // shuffle_button.click(function() {
+    //     shuffle = !shuffle;
+
+    // });
+
+    loop_button.click(function() {
+        loop = (loop + 1) % 3;
+        switch (loop) {
+            case 0:
+                loop_button.removeClass('active');
+                loop_icon.attr('class', 'icon icon-loop2');
+                player.setLoop(false);
+                break;
+            // The playlist will restart on completion
+            case 1:
+                loop_button.addClass('active');
+                loop_icon.attr('class', 'icon icon-loop2 active');
+                player.setLoop(true);
+                break;
+            // A single video will play continuously
+            case 2:
+                loop_icon.attr('class', 'icon icon-infinite active');
+        }
+    });
+
+    // Create a JQuery-UI slider for volume control
     $(function() {
         vol_slider.slider({
             value: 100,
@@ -82,6 +120,7 @@ function onPlayerReady(event) {
         });
     });
 
+    // Create a JQuery-UI slider for scrubbing through the video
     $(function() {
         play_slider.slider({
             value: 0,
@@ -106,7 +145,6 @@ function onPlayerReady(event) {
     if (rows != null) {
         rows.each(function(index, row) {
             $(row).dblclick(function(event) {
-                console.log(event);
                 button_icon.attr('class', 'glyphicon glyphicon-pause');
                 loadImage(index);
                 songID(index);
@@ -120,6 +158,7 @@ function onPlayerReady(event) {
 // The API will call this function whenever the state of the player changes
 var secondTimer;
 function onPlayerStateChange(event) {
+    console.log(event.data);
 
     // This event is thrown as soon as the video begins to load
     if (event.data === -1) {
@@ -138,6 +177,12 @@ function onPlayerStateChange(event) {
         var artist = $(data[1]).text();
 
         song_name_artist.text(name + ' - ' + artist);
+    }
+
+    if (event.data === 0) {
+        if (loop == 2) {
+            player.playVideo();
+        }
     }
 
     // While the video is playing, update the timer
