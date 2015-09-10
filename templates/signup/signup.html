@@ -1,5 +1,12 @@
-<form action="" method="post">
+{% extends 'playlists/homebase.html' %}
+
+{% block content %}
+<form method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Submit" />
+    <br />
+    <button type="submit" class="btn btn-primary">
+        Sign up
+    </button>
 </form>
+{% endblock %}

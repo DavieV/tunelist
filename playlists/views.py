@@ -29,6 +29,7 @@ def profile(request, username):
     context = {'playlists' : playlists, 'username' : user.username}
 
     if request.user == user:
+        context['form'] = PlaylistForm()
         if request.method == 'POST':
             form = PlaylistForm(request.POST)
             if form.is_valid():
@@ -39,8 +40,8 @@ def profile(request, username):
                 )
                 return HttpResponseRedirect('');
             else:
-                return HttpResponse("invalid form info")
-        context['form'] = PlaylistForm()
+                context["form"] = form
+                return render(request, 'playlists/profile.html', context)
     return render(request, 'playlists/profile.html', context)
 
 def playlist(request, username, playlist_id):
@@ -123,12 +124,28 @@ def signup_view(request):
                 request.POST['email'],
                 request.POST['password1']
             )
-            return HttpResponseRedirect('/')
+            return redirect('/')
         else:
-            return HttpResponse('Invalid form info')
+            return render(request, 'signup/signup.html', {'form' : form})
     else:
-        form = RegistrationForm()
-        return render(request, 'signup/signup.html', {'form' : form})
+        return render(request, 'signup/signup.html', {'form' : RegistrationForm()})
+
+def check_login(request, form):
+    if not form.is_valid():
+        return render(request, 'login/login.html', {'form': form})
+    user = authenticate(
+        username=request.POST['username'].lower(),
+        password=request.POST['password']
+    )
+    if user is None:
+        form.errors["username"] = ["Invalid Login"]
+        return render(request, 'login/login.html', {'form': form})
+    if not user.is_active:
+        form.errors["username"] = ["Inactive user"]
+        return render(request, "login/login.html", {'form': form})
+
+    login(request, user)
+    return redirect("/")
 
 def login_view(request):
     '''
@@ -136,25 +153,9 @@ def login_view(request):
     the user and log them in. Otherwise we load a blank login form.
     '''
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            user = authenticate(
-                username=request.POST['username'].lower(),
-                password=request.POST['password']
-            )
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect("/")
-                else:
-                    return HttpResponse("Inactive account")
-            else:
-                return HttpResponse("Invalid username or password")
-        else:
-            return HttpResponse("Invalid form info")
+        return check_login(request, LoginForm(request.POST))
     else:
-        form = LoginForm()
-        return render(request, 'login/login.html', {'form' : form})
+        return render(request, 'login/login.html', {'form' : LoginForm()})
 
 @login_required
 def logout_view(request):

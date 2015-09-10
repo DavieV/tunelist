@@ -38,15 +38,21 @@ class SongForm(forms.Form):
     )
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(label="Username", max_length=30)
-    email = forms.EmailField(label="Email")
+    username = forms.CharField(
+        label="Username", max_length=30,
+        widget = forms.TextInput(attrs={"class": 'form-control'})
+    )
+    email = forms.EmailField(
+        label="Email",
+        widget = forms.TextInput(attrs={"class": 'form-control'})
+    )
     password1 = forms.CharField(
         label="Password",
-        widget=forms.PasswordInput
+        widget=forms.PasswordInput(attrs={"class": 'form-control'})
     )
     password2 = forms.CharField(
         label="Confirm Password",
-        widget=forms.PasswordInput
+        widget=forms.PasswordInput(attrs={"class": 'form-control'})
     )
 
     def clean(self):
@@ -62,8 +68,11 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError("Username is already in use")
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label="Username", max_length=30)
+    username = forms.CharField(
+        label="Username", max_length=30,
+        widget = forms.TextInput(attrs={"class": 'form-control'})
+    )
     password = forms.CharField(
         label="Password",
-        widget=forms.PasswordInput
+        widget=forms.PasswordInput(attrs={"class": 'form-control'})
     )
