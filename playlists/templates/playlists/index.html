@@ -1,1 +1,23 @@
 {% extends 'playlists/homebase.html' %}
+
+{% block content %}
+<h2>Latest User Playlists</h2>
+{% for page in pages %}
+    <div class="row">
+    {% for item in page %}
+        <div class="col-md-4">
+            <a href="/{{ item.author }}">
+                {{ item.author }}
+            </a> - 
+            <a href="/{{ item.author }}/{{ item.pk }}">
+                {{ item.name }} / {{ item.genre }}
+            </a>
+            <img witdth="200" height="200" src="https://i3.ytimg.com/vi/{{ item.song_set.first.yt_id }}" />
+            <!-- <img src="http://placehold.it/200x200" /> -->
+        </div>
+    {% endfor %}
+    </div>
+    <br />
+{% endfor %}
+
+{% endblock %}

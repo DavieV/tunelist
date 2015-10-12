@@ -13,7 +13,9 @@ from .models import Playlist, Song
 from .forms import PlaylistForm, SongForm, LoginForm, RegistrationForm
 
 def index(request):
-    return render(request, 'playlists/index.html', {})
+    latest = Playlist.objects.all().order_by("-pk")[:6]
+    pages = [latest[:3], latest[3:6]]
+    return render(request, 'playlists/index.html', {"pages": pages})
 
 def profile(request, username):
     '''
@@ -109,6 +111,9 @@ def song_delete(request, username, playlist_id, song_id):
     song.delete()
     return redirect(playlist, username=username, playlist_id=playlist_id)
 
+def success(request, message):
+    return render(request, "signup/success.html", {"message": message})
+
 def signup_view(request):
     '''
     If the view is called with a POST request, then we register
@@ -124,7 +129,9 @@ def signup_view(request):
                 request.POST['email'],
                 request.POST['password1']
             )
-            return redirect('/')
+            return success(request,
+                    "Account successfully created, you may now sign in with" +\
+                            " your credentials")
         else:
             return render(request, 'signup/signup.html', {'form' : form})
     else:
@@ -160,4 +167,5 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect("/")
+    return success(request, "Logout successful")
+
