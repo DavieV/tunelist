@@ -148,6 +148,7 @@ function onPlayerReady(event) {
                 button_icon.attr('class', 'glyphicon glyphicon-pause');
                 loadImage(index);
                 songID(index);
+                $(row).addClass('highlight').siblings().removeClass('highlight'); 
             })
         });
     }
@@ -158,7 +159,6 @@ function onPlayerReady(event) {
 // The API will call this function whenever the state of the player changes
 var secondTimer;
 function onPlayerStateChange(event) {
-    console.log(event.data);
 
     // This event is thrown as soon as the video begins to load
     if (event.data === -1) {
