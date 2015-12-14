@@ -144,3 +144,6 @@ iframe {
     display: inline-block;
     width: 50%;
 }
+
+
+.table-striped tbody tr.highlight td { background-color: #999; }
