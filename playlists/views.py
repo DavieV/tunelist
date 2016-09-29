@@ -111,6 +111,19 @@ def song_delete(request, username, playlist_id, song_id):
     song.delete()
     return redirect(playlist, username=username, playlist_id=playlist_id)
 
+def explore(request):
+    '''
+    Show the user 25 random playlists.  This is currently the only mechanism
+    for a user to "discover" playlists that are not theirs other than the front
+    page (which only displays the 6 most recent).
+
+    This currently displays 25 random playlists, but could be extended later
+    to show 25 revenlant playlists, given the users music preferences.
+    '''
+    random_playlists = Playlist.objects.order_by("?")[:25]
+    pages = [random_playlists[i:i+3] for i in range(0, len(random_playlists), 3)]
+    return render(request, 'playlists/explore.html', {"pages": pages})
+
 def success(request, message):
     return render(request, "signup/success.html", {"message": message})
 

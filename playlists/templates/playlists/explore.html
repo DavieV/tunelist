@@ -1,0 +1,23 @@
+{% extends 'playlists/homebase.html' %}
+
+{% block headertext %}Explore{% endblock %}
+{% block tagline %}See what other users are listening too.{% endblock %}
+
+{% block content %}
+<h2>Explore User Playlists</h2>
+
+{% include "playlists/paged_playlists.html" %}
+
+<button class="btn btn-default" onclick="location.reload(true)">
+  Show me more!
+</button>
+
+<script>
+// Needed for when "show me more!" is pressed.  The page is usually reloaded in
+// place.  This will bring the user back to the top.
+window.onbeforeunload = function () {
+    window.scrollTo(0,0);
+}
+</script>
+
+{% endblock %}
