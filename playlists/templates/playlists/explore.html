@@ -1,10 +1,10 @@
 {% extends 'playlists/homebase.html' %}
 
-{% block headertext %}Tunelist{% endblock %}
-{% block tagline %}Take your music with you.{% endblock %}
+{% block headertext %}Explore{% endblock %}
+{% block tagline %}See what other users are listening too.{% endblock %}
 
 {% block content %}
-<h2>Latest User Playlists</h2>
+<h2>Explore User Playlists</h2>
 {% for page in pages %}
     <div class="row">
     {% for item in page %}
@@ -17,11 +17,21 @@
             </a>
             <br />
             <img witdth="200" height="200" src="https://i3.ytimg.com/vi/{{ item.song_set.first.yt_id }}" />
-            <!-- <img src="http://placehold.it/200x200" /> -->
         </div>
     {% endfor %}
     </div>
     <br />
 {% endfor %}
+<button class="btn btn-default" onclick="location.reload(true)">
+  Show me more!
+</button>
+
+<script>
+// Needed for when "show me more!" is pressed.  The page is usually reloaded in
+// place.  This will bring the user back to the top.
+window.onbeforeunload = function () {
+    window.scrollTo(0,0);
+}
+</script>
 
 {% endblock %}
