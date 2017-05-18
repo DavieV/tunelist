@@ -149,6 +149,13 @@ function onPlayerReady(event) {
                 loadImage(index);
                 songID(index);
                 $(row).addClass('highlight').siblings().removeClass('highlight');
+
+                var data = $(row).find("td");
+                var name = $(data[0]).text();
+                var artist = $(data[1]).text();
+
+                song_name_artist.text(name + ' - ' + artist);
+
             })
         });
     }
