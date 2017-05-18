@@ -54,7 +54,7 @@ function onYouTubeIframeAPIReady() {
 // The API will call this function when the video player is ready.
 function onPlayerReady(event) {
     // video_ids is a list of video ids that is filled out by django templating
-    player.cuePlaylist(video_ids)
+    player.cuePlaylist(video_ids);
 
     // Event listeners for playlist control buttons
     playpauseButton.click(function() {
@@ -65,12 +65,12 @@ function onPlayerReady(event) {
             player.playVideo();
         }
     });
-    
+
     nextButton.click(function() {
         player.nextVideo();
     });
 
-    
+
     // If the current time is below three seconds, move to the previous video
     // otherwise, play the current video from the beginning
     prevButton.click(function() {
@@ -148,7 +148,7 @@ function onPlayerReady(event) {
                 button_icon.attr('class', 'glyphicon glyphicon-pause');
                 loadImage(index);
                 songID(index);
-                $(row).addClass('highlight').siblings().removeClass('highlight'); 
+                $(row).addClass('highlight').siblings().removeClass('highlight');
             })
         });
     }

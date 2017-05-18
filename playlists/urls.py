@@ -7,7 +7,6 @@ urlpatterns = [
     url(r'^login/$', views.login_view, name='login_view'),
     url(r'^signup/$', views.signup_view, name='signup_view'),
     url(r'^logout/$', views.logout_view, name='logout_view'),
-    url(r'^search/', include('haystack.urls')),
     url(
         r'^(?P<username>.*)/(?P<playlist_id>.*)/delete/$',
         views.playlist_delete,

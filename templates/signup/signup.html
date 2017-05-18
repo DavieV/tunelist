@@ -1,5 +1,8 @@
 {% extends 'playlists/homebase.html' %}
 
+{% block headertext %}Tunelist{% endblock %}
+{% block tagline %}Take your music with you.{% endblock %}
+
 {% block content %}
 <form method="post">
     {% csrf_token %}

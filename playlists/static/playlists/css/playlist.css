@@ -2,11 +2,6 @@ body{
     background-color: #ddd;
 }
 
-/* Hide the youtube player */
-iframe {
-    display: none;
-}
-
 /* ---------- Table ---------- */
 .delete-link {
     float: right;

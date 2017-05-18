@@ -9,7 +9,7 @@ class RegistrationForm(forms.Form):
         widget=forms.PasswordInput
     )
     password2 = forms.CharField(
-        label="Confirm Password", 
+        label="Confirm Password",
         widget=forms.PasswordInput
     )
 
