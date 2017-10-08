@@ -33,6 +33,9 @@ class Playlist(models.Model):
     def __str__(self):
         return self.name
 
+    def likes(self):
+        return self.like_set.all().count()
+
 class Song(models.Model):
     playlist = models.ForeignKey(Playlist)
     song_url = models.CharField(max_length=200)
@@ -46,6 +49,13 @@ class Song(models.Model):
 
     def __str__(self):
         return self.name
+
+# A model representing a "like".
+class Like(models.Model):
+    # Both of these fields need to be primary keys to ensure a user can only
+    # like a playlist once.
+    liker = models.ForeignKey(User, primary_key=True)
+    playlist = models.ForeignKey(Playlist, primary_key=True)
 
 @receiver(post_save, sender=User)
 def create_userprofile(sender, instance, created, **kwargs):

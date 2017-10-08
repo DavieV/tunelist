@@ -1,15 +1,18 @@
 import datetime
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
+from django.db import IntegrityError
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 
 from django.utils import timezone
 
-from .models import Playlist, Song
+from .models import Playlist, Song, Like
 from .forms import PlaylistForm, SongForm, LoginForm, RegistrationForm
 
 def index(request):
@@ -182,3 +185,17 @@ def logout_view(request):
     logout(request)
     return success(request, "Logout successful")
 
+# Record a like on a playlist.
+@login_required
+@require_http_methods(["POST"])
+@csrf_exempt
+def like(request):
+    try:
+        playlist = get_object_or_404(Playlist, pk=request.POST["playlist_id"])
+        like = Like.objects.create(liker=request.user, playlist=playlist)
+        like.save()
+    # This means someone tried to like a playlist more than once. Catching this
+    # exception prevents a 500 error from being thrown.
+    except IntegrityError as e:
+        pass
+    return JsonResponse({"likes": playlist.likes()})

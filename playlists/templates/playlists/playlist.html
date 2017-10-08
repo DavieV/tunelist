@@ -17,6 +17,7 @@
 
     <!-- The player should replace this div tag -->
     <div id="player"></div>
+    <span class="hidden" id="playlist-id">{{playlist.pk}}</span>
 
     <div class="container-fluid">
         <!-- Body content -->
@@ -86,6 +87,11 @@
                 </button>
                 <button class="btn btn-default" id="loop" aria-label="Shuffle">
                     <span class="icon icon-loop2"></span>
+                </button>
+
+                <button class="btn btn-default" id="like-button">
+                  <span class="icon icon-heart"></span>
+                  <span id="num-likes">{{ playlist.likes }}</span>
                 </button>
             </div>
 

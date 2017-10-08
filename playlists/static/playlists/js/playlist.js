@@ -259,3 +259,11 @@ function setButtonPlay() {
 function setButtonPause() {
     button_icon.attr('class', 'glyphicon glyphicon-pause');
 }
+
+$("#like-button").click(() => {
+  $.post("/playlist/like",
+         {"playlist_id": $("#playlist-id").text()},
+  (data) => {
+    $("#num-likes").text(data["likes"]);
+  });
+});
