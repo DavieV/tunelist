@@ -24,4 +24,5 @@ urlpatterns = [
     ),
     url(r'^(?P<username>.*)/$', views.profile, name='profile'),
     url(r'^explore/?$', views.explore),
+    url(r'^playlist/like/?$', views.like)
 ]
